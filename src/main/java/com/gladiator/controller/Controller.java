@@ -9,8 +9,10 @@ import org.springframework.web.bind.annotation.RestController;
 import com.gladiator.controller.Controller.Status.StatusType;
 import com.gladiator.dto.LoginDto;
 import com.gladiator.entity.Bidder_Details;
+import com.gladiator.entity.CropSell;
 import com.gladiator.entity.Farmer_Details;
 import com.gladiator.exceptions.FarmerServiceException;
+import com.gladiator.repository.SellReq_Repository;
 import com.gladiator.service.Bidder_Service;
 import com.gladiator.service.Login_Service;
 
@@ -23,6 +25,31 @@ public class Controller {
 	
 	@Autowired
 	private Bidder_Service bservice;
+	
+	@Autowired
+	private SellReq_Repository sellReq;
+	
+	@PostMapping("/addSellRequest")
+	public Status addSellRequest(@RequestBody CropSell cropsell)
+	{
+		
+		try {
+			sellReq.save(cropsell);
+			Status status=new Status();
+			status.setStatus(StatusType.SUCCESS);
+			status.setMessage("Crop Sell Req Added");
+			return status;
+		}
+		catch (FarmerServiceException e) {
+			Status status=new Status();
+			status.setStatus(StatusType.FAILURE);
+			status.setMessage("Failed to add Request. Please try again");
+			return status;
+		}
+}
+	
+	
+	
 	
 	@PostMapping("/register")
 	public Status registerFarmer(@RequestBody Farmer_Details fdetails)
