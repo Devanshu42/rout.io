@@ -4,16 +4,22 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
+import org.springframework.mail.MailSender;
+import org.springframework.mail.SimpleMailMessage;
 
 import com.gladiator.controller.Controller.Status.StatusType;
 import com.gladiator.dto.LoginDto;
 import com.gladiator.entity.Bidder_Details;
 import com.gladiator.entity.CropSell;
 import com.gladiator.entity.Farmer_Details;
+import com.gladiator.entity.OfficialUser;
 import com.gladiator.exceptions.FarmerServiceException;
+import com.gladiator.repository.Generic_Repository;
 import com.gladiator.repository.SellReq_Repository;
 import com.gladiator.service.Bidder_Service;
+import com.gladiator.service.Generic_Service;
 import com.gladiator.service.Login_Service;
 
 @RestController
@@ -28,6 +34,52 @@ public class Controller {
 	
 	@Autowired
 	private SellReq_Repository sellReq;
+	
+	@Autowired
+	private Generic_Service gService;
+	
+//	@GetMapping("/SellReqHistory")
+//	{
+//	
+//	}
+//	
+//	@Autowired
+//	private MailSender mailSender;
+//	
+//	//User user=new User();
+//	@CrossOrigin
+//	@RequestMapping("/hello")
+//	public String hello(@RequestBody User user) {
+//		
+//		SimpleMailMessage message = new SimpleMailMessage();
+//		message.setFrom("Devanshu.dwivedi@lntiinfotech.com");
+//		message.setTo(user.getEmail());
+//		message.setSubject("Welcome ");
+//		message.setText("Congratulations you have been successfully registered with Air Fuselage");
+//		mailSender.send(message);
+//		
+//		return "Welcome to Spring REST";
+//	}
+	
+	@PostMapping("/adminlogin")
+	public LoginStatus loginAdmin(@RequestBody LoginDto loginDto) {
+		try {
+			OfficialUser user= gService.login(loginDto.getEmail(),loginDto.getPassword());
+			LoginStatus loginStatus = new LoginStatus();
+			loginStatus.setStatus(StatusType.SUCCESS);
+			loginStatus.setMessage("Login Successful");
+			loginStatus.setEmail(user.getEmail());
+
+			return loginStatus;
+		}
+		catch(FarmerServiceException e) {
+			LoginStatus loginStatus = new LoginStatus();
+			loginStatus.setStatus(StatusType.FAILURE);
+			loginStatus.setMessage(e.getMessage());
+			return loginStatus;
+		}
+		
+	}
 	
 	@PostMapping("/addSellRequest")
 	public Status addSellRequest(@RequestBody CropSell cropsell)
@@ -47,8 +99,6 @@ public class Controller {
 			return status;
 		}
 }
-	
-	
 	
 	
 	@PostMapping("/register")

@@ -10,5 +10,8 @@ public interface SellReq_Repository {
 	void save(CropSell cropsell);
 
 	List<CropSell> findAll();
+	
+	List<CropSell> findApproved();
+	
 
 }

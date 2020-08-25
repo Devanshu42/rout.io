@@ -5,14 +5,14 @@ import java.sql.Timestamp;
 
 @Entity
 @Table(name="CropSell")
-//@NamedQuery(name="CropSell.findAll", query="SELECT c FROM CropSell c")
+@NamedQuery(name = "fetch-sell-history", query = "select c from CropSell as c")
 public class CropSell {
 
 	@Id
 	@SequenceGenerator(name = "User_Id_Seq", sequenceName = "User_Id_Seq", allocationSize = 1)
 	@GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "User_Id_Seq")
 	@Column
-	private int cropId;
+	private int sellId;
 
 	@Column(name="adminApprove")
 	private int adminApprove;
@@ -39,12 +39,14 @@ public class CropSell {
 	private double quantity;
 
 
-	public int getCropId() {
-		return cropId;
+	
+
+	public int getSellId() {
+		return sellId;
 	}
 
-	public void setCropId(int cropId) {
-		this.cropId = cropId;
+	public void setSellId(int sellId) {
+		this.sellId = sellId;
 	}
 
 	public int getAdminApprove() {

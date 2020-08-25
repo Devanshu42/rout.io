@@ -6,7 +6,7 @@ import javax.persistence.Id;
 import javax.persistence.NamedQuery;
 
 @Entity
-//@NamedQuery(name = "fetch-all", query = "select f from Farmer_Details as f")
+@NamedQuery(name = "fetch-all", query = "select f from Farmer_Details as f")
 public class Farmer_Details {
 
 @Id

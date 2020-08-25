@@ -20,15 +20,25 @@ public class SellReq_Repository_Impl implements SellReq_Repository{
 	@Transactional
 	public void save(CropSell cropsell) {
 		entitymanager.merge(cropsell);
-		
 		// TODO Auto-generated method stub
 		
 	}
 
 	@Override
 	public List<CropSell> findAll() {
+		return entitymanager
+				.createNamedQuery("fetch-sell-history")
+				.getResultList();		
 		// TODO Auto-generated method stub
-		return null;
 	}
+
+	@Override
+	public List<CropSell> findApproved() {
+		return  entitymanager
+				.createQuery("select c from CropSell c where c.adminApprove = 1 ")
+				.getResultList();
+	}// TODO Auto-generated method stub
+	
+	
 
 }
