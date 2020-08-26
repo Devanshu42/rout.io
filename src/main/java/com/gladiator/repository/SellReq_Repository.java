@@ -9,7 +9,7 @@ public interface SellReq_Repository {
 	
 	void save(CropSell cropsell);
 
-	List<CropSell> findAll();
+	List<CropSell> findAll(String email);
 	
 	List<CropSell> findApproved(String email);
 	

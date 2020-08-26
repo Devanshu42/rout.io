@@ -3,6 +3,7 @@ package com.gladiator.controller;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
@@ -13,7 +14,6 @@ import com.gladiator.controller.Controller.Status.StatusType;
 import com.gladiator.dto.ForgetPasswordDto;
 import com.gladiator.dto.LoginDto;
 import com.gladiator.dto.Mailuser;
-import com.gladiator.dto.SellReqHistory;
 import com.gladiator.entity.Bidder_Details;
 import com.gladiator.entity.CropSell;
 import com.gladiator.entity.Farmer_Details;
@@ -26,7 +26,7 @@ import com.gladiator.service.Login_Service;
 import java.util.List;
 
 @RestController
-@CrossOrigin
+@CrossOrigin(origins="http://localhost:4200")
 public class Controller {
 
 	@Autowired
@@ -64,13 +64,21 @@ public class Controller {
 //	}
 	
 	
-	@GetMapping("/SellReqHistory")
-	public List<CropSell> returnApprovedCrops(@RequestBody SellReqHistory sellreq)
+	@GetMapping("/SellReqHistory/{email}")
+	public List<CropSell> returnRequestCrops(@PathVariable ("email") String email, Mailuser sellreq)
+	{
+		System.out.println("email "+email);
+		List<CropSell> allCropList=sellReq.findAll(email);
+		return  allCropList;
+	
+	}
+	
+	@GetMapping("/SoldReqHistory")
+	public List<CropSell> returnApprovedCrops(@RequestBody Mailuser sellreq)
 	{
 		System.out.println("email "+sellreq.getEmail());
 		List<CropSell> approvedCropList=sellReq.findApproved(sellreq.getEmail());
 		return  approvedCropList;
-	
 	}
 	
 	@PostMapping("/hello")

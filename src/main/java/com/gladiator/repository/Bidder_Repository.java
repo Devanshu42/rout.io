@@ -16,4 +16,5 @@ public interface Bidder_Repository {
 	boolean isBidderPresent(String email);
 
 	public Bidder_Details findById(String fEmail);
+
 }

@@ -11,6 +11,4 @@ public class Mailuser {
 	public void setEmail(String email) {
 		this.email = email;
 	}
-	
-
 }

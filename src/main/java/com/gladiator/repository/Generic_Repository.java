@@ -1,6 +1,6 @@
 package com.gladiator.repository;
 
-import com.gladiator.entity.CropType;
+import com.gladiator.entity.Crop;
 import com.gladiator.entity.OfficialUser;
 
 public interface Generic_Repository {
@@ -9,6 +9,6 @@ public interface Generic_Repository {
 	boolean isAdminPresent(String email);
 
 	public OfficialUser findById(String email);
-	public void saveCropType(CropType croptype);
+	public void saveCropType(Crop crop);
 
 }

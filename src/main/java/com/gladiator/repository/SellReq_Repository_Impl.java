@@ -25,9 +25,10 @@ public class SellReq_Repository_Impl implements SellReq_Repository{
 	}
 
 	@Override
-	public List<CropSell> findAll() {
+	public List<CropSell> findAll(String email) {
 		return entitymanager
-				.createNamedQuery("fetch-sell-history")
+				.createQuery("select c.cropName,c.expiryDate,c.quantity,c.baseFarmerPrice from CropSell c where c.fEmail=:em ")
+				.setParameter("em", email)
 				.getResultList();		
 		// TODO Auto-generated method stub
 	}
