@@ -2,6 +2,7 @@ package com.gladiator.controller;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.CrossOrigin;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
@@ -12,6 +13,7 @@ import com.gladiator.controller.Controller.Status.StatusType;
 import com.gladiator.dto.ForgetPasswordDto;
 import com.gladiator.dto.LoginDto;
 import com.gladiator.dto.Mailuser;
+import com.gladiator.dto.SellReqHistory;
 import com.gladiator.entity.Bidder_Details;
 import com.gladiator.entity.CropSell;
 import com.gladiator.entity.Farmer_Details;
@@ -21,6 +23,7 @@ import com.gladiator.repository.SellReq_Repository;
 import com.gladiator.service.Bidder_Service;
 import com.gladiator.service.Generic_Service;
 import com.gladiator.service.Login_Service;
+import java.util.List;
 
 @RestController
 @CrossOrigin
@@ -59,6 +62,16 @@ public class Controller {
 //			return status;
 //		}
 //	}
+	
+	
+	@GetMapping("/SellReqHistory")
+	public List<CropSell> returnApprovedCrops(@RequestBody SellReqHistory sellreq)
+	{
+		System.out.println("email "+sellreq.getEmail());
+		List<CropSell> approvedCropList=sellReq.findApproved(sellreq.getEmail());
+		return  approvedCropList;
+	
+	}
 	
 	@PostMapping("/hello")
 	public String hello(@RequestBody Mailuser mail) {

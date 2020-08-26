@@ -2,9 +2,11 @@ package com.gladiator.repository;
 
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
+import javax.transaction.Transactional;
 
 import org.springframework.stereotype.Repository;
 
+import com.gladiator.entity.CropType;
 import com.gladiator.entity.OfficialUser;
 @Repository
 public class Generic_RepositoryImpl implements Generic_Repository {
@@ -34,8 +36,14 @@ public class Generic_RepositoryImpl implements Generic_Repository {
 	public OfficialUser findById(String email) {
 		return entitymanager.find(OfficialUser.class, email);
 
-	}
+}
 	
-	
+	@Transactional
+	@Override
+	public void saveCropType(CropType croptype) {
+		// TODO Auto-generated method stub
+		entitymanager.merge(croptype);
 
+	
+	}
 }

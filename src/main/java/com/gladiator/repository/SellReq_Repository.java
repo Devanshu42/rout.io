@@ -11,7 +11,7 @@ public interface SellReq_Repository {
 
 	List<CropSell> findAll();
 	
-	List<CropSell> findApproved();
+	List<CropSell> findApproved(String email);
 	
 
 }

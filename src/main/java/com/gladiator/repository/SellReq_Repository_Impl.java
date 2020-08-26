@@ -33,11 +33,12 @@ public class SellReq_Repository_Impl implements SellReq_Repository{
 	}
 
 	@Override
-	public List<CropSell> findApproved() {
+	public List<CropSell> findApproved(String email) {
 		return  entitymanager
-				.createQuery("select c from CropSell c where c.adminApprove = 1 ")
+				.createQuery("select c.cropName,c.baseFarmerPrice from CropSell c where c.adminApprove = 1 and c.fEmail=:em ")
+				.setParameter("em", email)
 				.getResultList();
-	}// TODO Auto-generated method stub
+	}
 	
 	
 
