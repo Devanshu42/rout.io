@@ -4,19 +4,19 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.mail.MailSender;
 import org.springframework.mail.SimpleMailMessage;
 
 import com.gladiator.controller.Controller.Status.StatusType;
+import com.gladiator.dto.ForgetPasswordDto;
 import com.gladiator.dto.LoginDto;
+import com.gladiator.dto.Mailuser;
 import com.gladiator.entity.Bidder_Details;
 import com.gladiator.entity.CropSell;
 import com.gladiator.entity.Farmer_Details;
 import com.gladiator.entity.OfficialUser;
 import com.gladiator.exceptions.FarmerServiceException;
-import com.gladiator.repository.Generic_Repository;
 import com.gladiator.repository.SellReq_Repository;
 import com.gladiator.service.Bidder_Service;
 import com.gladiator.service.Generic_Service;
@@ -38,28 +38,40 @@ public class Controller {
 	@Autowired
 	private Generic_Service gService;
 	
-//	@GetMapping("/SellReqHistory")
-//	{
-//	
+	@Autowired
+	private MailSender mailSender;
+	
+//	@PostMapping("/forgetPassword")
+//	public Status forgetPassword(@RequestBody ForgetPasswordDto forgetPassword){
+//		try{
+//			ForgetPasswordStatus forgetPasswordStatus = new ForgetPasswordStatus();
+//		String newPassword= gService.resetPassword(forgetPassword.getId()+forgetPassword.getPassword());
+//		forgetPasswordStatus.setPassword(newPassword);
+//		forgetPasswordStatus.setStatus(StatusType.SUCCESS);
+//		forgetPasswordStatus.setMessage("Password Change Successful")
+//		return forgetPasswordStatus;
+//		}
+//		catch(FarmerServiceException e){
+//			Status status = new Status();
+//			status.setMessage("Password Change Succesfull");
+//			status.setStatus(StatusType.FAILURE);
+//			
+//			return status;
+//		}
 //	}
-//	
-//	@Autowired
-//	private MailSender mailSender;
-//	
-//	//User user=new User();
-//	@CrossOrigin
-//	@RequestMapping("/hello")
-//	public String hello(@RequestBody User user) {
-//		
-//		SimpleMailMessage message = new SimpleMailMessage();
-//		message.setFrom("Devanshu.dwivedi@lntiinfotech.com");
-//		message.setTo(user.getEmail());
-//		message.setSubject("Welcome ");
-//		message.setText("Congratulations you have been successfully registered with Air Fuselage");
-//		mailSender.send(message);
-//		
-//		return "Welcome to Spring REST";
-//	}
+	
+	@PostMapping("/hello")
+	public String hello(@RequestBody Mailuser mail) {
+		
+		SimpleMailMessage message = new SimpleMailMessage();
+		message.setFrom("Devanshu.dwivedi@outlook.com");
+		message.setTo(mail.getEmail());
+		message.setSubject("Welcome to Farmstead! ");
+		message.setText("You have succesfully registered with us. Glad to have you!");
+		mailSender.send(message);
+		
+		return "Mail sent";
+	}
 	
 	@PostMapping("/adminlogin")
 	public LoginStatus loginAdmin(@RequestBody LoginDto loginDto) {
@@ -176,7 +188,18 @@ public class Controller {
 		
 	}
 	
+public static class ForgetPasswordStatus extends Status{
+	private String password;
 
+	public String getPassword() {
+		return password;
+	}
+
+	public void setPassword(String password) {
+		this.password = password;
+	}
+	
+}
 public static class LoginStatus extends Status {
 	private String Email;
 	private String name;
