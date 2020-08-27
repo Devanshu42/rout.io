@@ -52,7 +52,7 @@ public class SellReq_Repository_Impl implements SellReq_Repository{
 	@Override
 	public List<CropSell> findNotApproved() {
 		return  entitymanager
-				.createQuery("select c.cropName,c.cropTypeName,cs.baseFarmerPrice from Crop c,CropSell cs where c.cropName=cs.cropName and cs.adminApprove=1")
+				.createQuery("select c.sellId, c.quantity, c.cropName, c.baseFarmerPrice, l.currentPrice from CropSell c LEFT OUTER JOIN LiveBid l ON (c.sellId=l.sellId) where c.adminApprove=1 and l.bidDoneToken=0 OR l.bidDoneToken=NULL")
 				.getResultList();
 	}
 	

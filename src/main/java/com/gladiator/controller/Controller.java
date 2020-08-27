@@ -120,7 +120,7 @@ public class Controller {
 	@GetMapping("/WelcomeBidder")
 	public List<CropSell> returnApprovedCrops()
 	{
-		List<CropSell> approvedCropList=sellReq.findNotApproved();
+		List<CropSell> approvedCropList=sellReq.findNotApproved(); // METHOD NAME IS MISLEADING. ITS APPROVED 
 		return  approvedCropList;
 	}
 	

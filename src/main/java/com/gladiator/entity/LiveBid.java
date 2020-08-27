@@ -21,6 +21,16 @@ public class LiveBid {
 	@Column(name="CurrentPrice")
 	private double currentPrice=0.0;
 	
+	@Column(name="BidDoneToken")
+	private int bidDoneToken;
+
+	public int getBidDoneToken() {
+		return bidDoneToken;
+	}
+
+	public void setBidDoneToken(int bidDoneToken) {
+		this.bidDoneToken = bidDoneToken;
+	}
 
 	public int getBidId() {
 		return bidId;

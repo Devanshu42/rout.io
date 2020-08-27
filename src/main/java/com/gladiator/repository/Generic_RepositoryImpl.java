@@ -109,6 +109,13 @@ public class Generic_RepositoryImpl implements Generic_Repository {
 			.setParameter("sid", sellid )
 			.executeUpdate();
 			
+//			entitymanager
+//			.createQuery("update CropSell cs set lb.currentPrice = :nb, lb.bEmail= :em where lb.sellId= :sid")
+//			.setParameter("nb", newbid )
+//			.setParameter("em", nemail )
+//			.setParameter("sid", sellid )
+//			.executeUpdate();
+//			
 			return "Yay, your bid got placed over an ongoing bid";
 		}
 		
