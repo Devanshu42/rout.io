@@ -13,5 +13,7 @@ public interface SellReq_Repository {
 	
 	List<CropSell> findApproved(String email);
 	
+	public List<CropSell> findNotApproved();
+	
 
 }

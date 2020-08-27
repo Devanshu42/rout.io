@@ -41,6 +41,13 @@ public class SellReq_Repository_Impl implements SellReq_Repository{
 				.getResultList();
 	}
 	
+	@Override
+	public List<CropSell> findNotApproved() {
+		return  entitymanager
+				.createQuery("select c.cropName,c.cropTypeName,cs.baseFarmerPrice from Crop c,CropSell cs where c.cropName=cs.cropName and cs.adminApprove=0")
+				.getResultList();
+	}
+
 	
 
 }

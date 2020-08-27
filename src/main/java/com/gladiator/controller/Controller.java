@@ -63,6 +63,12 @@ public class Controller {
 //		}
 //	}
 	
+	@GetMapping("/WelcomeBidder")
+	public List<CropSell> returnApprovedCrops()
+	{
+		List<CropSell> approvedCropList=sellReq.findNotApproved();
+		return  approvedCropList;
+	}
 	
 	@GetMapping("/SellReqHistory/{email}")
 	public List<CropSell> returnRequestCrops(@PathVariable ("email") String email, Mailuser sellreq)
