@@ -13,12 +13,13 @@ import org.springframework.mail.SimpleMailMessage;
 import com.gladiator.controller.Controller.Status.StatusType;
 import com.gladiator.dto.ApprovalDto;
 import com.gladiator.dto.CropTypeDto;
-import com.gladiator.dto.ForgetPasswordDto;
+//import com.gladiator.dto.ForgetPasswordDto;
 import com.gladiator.dto.LoginDto;
 import com.gladiator.dto.Mailuser;
 import com.gladiator.entity.Bidder_Details;
 import com.gladiator.entity.CropSell;
 import com.gladiator.entity.Farmer_Details;
+import com.gladiator.entity.LiveBid;
 import com.gladiator.entity.OfficialUser;
 import com.gladiator.exceptions.FarmerServiceException;
 import com.gladiator.repository.Bidder_Repository;
@@ -57,7 +58,24 @@ public class Controller {
 	
 	@Autowired
 	private Generic_Repository gRepo;
-
+	
+	
+	@PostMapping("/placebid")
+	public String placeBid(@RequestBody LiveBid livebid) {
+		
+		if(gRepo.isBidPresent(livebid.getSellId()))
+		{
+			String message = gRepo.UpdateBidChecks(livebid);
+			return message;
+			
+			
+		}
+		else {
+			gRepo.AddBid(livebid);
+			return "Placed your bid. You're first :P";
+		}
+	}
+	
 	
 	@GetMapping("/farmerslist")
 	public List<Farmer_Details> returnFarmerList(){

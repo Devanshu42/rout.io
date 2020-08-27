@@ -1,6 +1,7 @@
 package com.gladiator.repository;
 
 import com.gladiator.entity.Crop;
+import com.gladiator.entity.LiveBid;
 import com.gladiator.entity.OfficialUser;
 
 public interface Generic_Repository {
@@ -13,4 +14,8 @@ public interface Generic_Repository {
 	
 	public void approveSellRequest(int id);
 	public void declineSellRequest(int id);
+	
+	public void AddBid(LiveBid livebid);
+	public String UpdateBidChecks(LiveBid livebid);
+	public boolean isBidPresent(int sellid);
 }
