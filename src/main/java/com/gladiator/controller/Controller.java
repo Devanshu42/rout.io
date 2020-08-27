@@ -175,7 +175,7 @@ public class Controller {
 	
 	}
 	
-	@GetMapping("/SoldReqHistory")
+	@PostMapping("/SoldReqHistory")
 	public List<CropSell> returnApprovedCrops(@RequestBody Mailuser sellreq)
 	{
 		System.out.println("email "+sellreq.getEmail());

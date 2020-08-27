@@ -44,9 +44,8 @@ public class SellReq_Repository_Impl implements SellReq_Repository{
 
 	@Override
 	public List<CropSell> findApproved(String email) {
-		return  entitymanager
-				.createQuery("select c.cropName,c.baseFarmerPrice from CropSell c where c.adminApprove = 1 and c.fEmail=:em ")
-				.setParameter("em", email)
+		return entitymanager
+				.createQuery("select c.cropName, c.quantity, l.currentPrice, l,bEmail from CropSell c, LiveBid l where c.sellId=l.sellId and l.bidDoneToken=1")
 				.getResultList();
 	}
 	
@@ -71,7 +70,7 @@ public class SellReq_Repository_Impl implements SellReq_Repository{
 	public List<LiveBid> findAllBids() {
 		
 		return entitymanager
-				.createQuery("select l from LiveBid l where l.bidDoneToken=0")
+				.createQuery("select l.bidId, c.fEmail, l.bEmail, c.cropName, l.currentPrice from LiveBid l, CropSell c where l.sellId=c.sellId and l.bidDoneToken=0")
 				.getResultList();
 		// TODO Auto-generated method stub
 	}
