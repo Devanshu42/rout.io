@@ -1,5 +1,7 @@
 package com.gladiator.repository;
 
+import java.util.List;
+
 import com.gladiator.entity.Crop;
 import com.gladiator.entity.LiveBid;
 import com.gladiator.entity.OfficialUser;
@@ -18,4 +20,9 @@ public interface Generic_Repository {
 	public void AddBid(LiveBid livebid);
 	public String UpdateBidChecks(LiveBid livebid);
 	public boolean isBidPresent(int sellid);
+	
+	public List<LiveBid> getBidderHistory(String email);
+	public List<LiveBid> getFarmerHistory(String email);
+
+	void finalizeBid(int id);
 }

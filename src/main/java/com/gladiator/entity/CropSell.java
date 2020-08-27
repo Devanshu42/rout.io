@@ -1,6 +1,7 @@
 package com.gladiator.entity;
 import javax.persistence.*;
 import java.sql.Timestamp;
+import java.util.Date;
 
 
 @Entity
@@ -24,7 +25,7 @@ public class CropSell {
 	private String cropName;
 
 	@Column(name="expiryDate")
-	private Timestamp expiryDate;
+	private Date expiryDate;
 
 	@Column(name="fEmail")
 	private String fEmail;
@@ -73,11 +74,12 @@ public class CropSell {
 		this.cropName = cropName;
 	}
 
-	public Timestamp getExpiryDate() {
+
+	public Date getExpiryDate() {
 		return expiryDate;
 	}
 
-	public void setExpiryDate(Timestamp expiryDate) {
+	public void setExpiryDate(Date expiryDate) {
 		this.expiryDate = expiryDate;
 	}
 

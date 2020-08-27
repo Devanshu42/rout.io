@@ -9,6 +9,7 @@ import javax.transaction.Transactional;
 import org.springframework.stereotype.Repository;
 
 import com.gladiator.entity.CropSell;
+import com.gladiator.entity.LiveBid;
 
 @Repository
 public class SellReq_Repository_Impl implements SellReq_Repository{
@@ -27,7 +28,7 @@ public class SellReq_Repository_Impl implements SellReq_Repository{
 	@Override
 	public List<CropSell> findAll() {
 		return entitymanager
-				.createQuery("select c.sellId, c.cropName,c.expiryDate,c.quantity,c.baseFarmerPrice, cr.cropTypeName from CropSell c, Crop cr where c.cropName=cr.cropName")
+				.createQuery("select c.sellId, c.cropName,c.expiryDate,c.quantity,c.baseFarmerPrice, cr.cropTypeName, c.adminApprove from CropSell c, Crop cr where c.cropName=cr.cropName and c.adminApprove=0")
 				.getResultList();		
 		// TODO Auto-generated method stub
 	}
@@ -35,7 +36,7 @@ public class SellReq_Repository_Impl implements SellReq_Repository{
 	@Override
 	public List<CropSell> findAll(String email) {
 		return entitymanager
-				.createQuery("select c.cropName,c.expiryDate,c.quantity,c.baseFarmerPrice from CropSell c where c.fEmail=:em ")
+				.createQuery("select c.cropName,c.expiryDate,c.quantity,c.baseFarmerPrice, l.currentPrice from CropSell c, LiveBid l where c.fEmail=:em and c.sellId=l.sellId ")
 				.setParameter("em", email)
 				.getResultList();		
 		// TODO Auto-generated method stub
@@ -52,7 +53,7 @@ public class SellReq_Repository_Impl implements SellReq_Repository{
 	@Override
 	public List<CropSell> findNotApproved() {
 		return  entitymanager
-				.createQuery("select c.sellId, c.quantity, c.cropName, c.baseFarmerPrice, l.currentPrice from CropSell c LEFT OUTER JOIN LiveBid l ON (c.sellId=l.sellId) where c.adminApprove=1 and l.bidDoneToken=0 OR l.bidDoneToken=NULL")
+				.createQuery("select c.sellId, c.quantity, c.cropName, c.baseFarmerPrice, c.expiryDate, l.currentPrice from CropSell c LEFT OUTER JOIN LiveBid l ON (c.sellId=l.sellId) where c.adminApprove=1 and l.bidDoneToken=0 OR l.bidDoneToken=NULL")
 				.getResultList();
 	}
 	
@@ -64,6 +65,15 @@ public class SellReq_Repository_Impl implements SellReq_Repository{
 				.setParameter("ct", croptype)
 				.getResultList();
 		
+	}
+
+	@Override
+	public List<LiveBid> findAllBids() {
+		
+		return entitymanager
+				.createQuery("select l from LiveBid l where l.bidDoneToken=0")
+				.getResultList();
+		// TODO Auto-generated method stub
 	}
 
 	

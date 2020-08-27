@@ -3,6 +3,7 @@ package com.gladiator.repository;
 import java.util.List;
 
 import com.gladiator.entity.CropSell;
+import com.gladiator.entity.LiveBid;
 
 public interface SellReq_Repository {
 	
@@ -18,6 +19,8 @@ public interface SellReq_Repository {
 	List<CropSell> findAll();
 	
 	List<CropSell> findCropNames(String croptype);
+	
+	List<LiveBid> findAllBids();
 	
 
 }

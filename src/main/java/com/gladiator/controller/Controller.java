@@ -1,5 +1,6 @@
 package com.gladiator.controller;
 
+import org.apache.tomcat.jni.Status;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -59,20 +60,61 @@ public class Controller {
 	@Autowired
 	private Generic_Repository gRepo;
 	
+	@GetMapping("/returnOngoingBids")
+	public List<LiveBid> returnBids(){
+		
+		List<LiveBid> BidList = sellReq.findAllBids();
+		return BidList;
+	
+	}
+	
+	@GetMapping("/finaliseBid/{bidId}")
+	public String finaliseBidById(@PathVariable ("bidId") int id, ApprovalDto approveDto)
+	{	
+		
+		gRepo.finalizeBid(id);
+		
+		return "Bid Finalized";
+	}
+	
+	
+	@GetMapping("/GetFarmerHistory/{fEmail}")
+	public List<LiveBid> getFarmerHistory(@PathVariable ("fEmail") String fEmail, Mailuser email)
+	{	
+		
+		List<LiveBid> farminghistory=gRepo.getFarmerHistory(fEmail);
+		return farminghistory;
+	
+	}
+	
+	@GetMapping("/GetBidderHistory/{bEmail}")
+	public List<LiveBid> getBidderHistory(@PathVariable ("bEmail") String bEmail, Mailuser email)
+	{	
+		
+		List<LiveBid> biddinghistory=gRepo.getBidderHistory(bEmail);
+		return biddinghistory;
+	
+	}
+	
+	
 	
 	@PostMapping("/placebid")
-	public String placeBid(@RequestBody LiveBid livebid) {
+	public Status placeBid(@RequestBody LiveBid livebid) {
 		
 		if(gRepo.isBidPresent(livebid.getSellId()))
 		{
-			String message = gRepo.UpdateBidChecks(livebid);
-			return message;
-			
-			
+			Status status = new Status();
+			gRepo.UpdateBidChecks(livebid);
+			status.setStatus(StatusType.SUCCESS);
+			status.setMessage("Current Bid Updated on this bid");
+			return status;		
 		}
 		else {
+			Status status = new Status();
 			gRepo.AddBid(livebid);
-			return "Placed your bid. You're first :P";
+			status.setStatus(StatusType.SUCCESS);
+			status.setMessage("You're first on this bid");
+			return status;	
 		}
 	}
 	
@@ -140,6 +182,8 @@ public class Controller {
 		List<CropSell> approvedCropList=sellReq.findApproved(sellreq.getEmail());
 		return  approvedCropList;
 	}
+	
+	
 	
 	@PostMapping("/hello")
 	public String hello(@RequestBody Mailuser mail) {

@@ -1,5 +1,7 @@
 package com.gladiator.repository;
 
+import java.util.List;
+
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 import javax.transaction.Transactional;
@@ -122,6 +124,41 @@ public class Generic_RepositoryImpl implements Generic_Repository {
 		return"Please enter a higher amount than the ongoing bid";
 		
 		
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public List<LiveBid> getBidderHistory(String email) {
+		
+		return entitymanager
+				.createQuery("select c.fEmail, c.cropName, c.quantity, l.currentPrice, l.bidDoneToken from LiveBid l, CropSell c where c.sellId=l.sellId and l.bEmail= :em")
+				.setParameter("em",email)
+				.getResultList();
+		
+		
+		
+		// TODO Auto-generated method stub
+	}
+
+	@Override
+	public List<LiveBid> getFarmerHistory(String email) {
+		return entitymanager
+		.createQuery("select l.bEmail, c.cropName, c.quantity, l.currentPrice, l.bidDoneToken from LiveBid l, CropSell c where c.sellId=l.sellId and c.fEmail= :em")
+		.setParameter("em",email)
+		.getResultList();
+		
+		// TODO Auto-generated method stub
+	}
+
+	@Override
+	@Transactional
+	public void finalizeBid(int id) {
+		
+		entitymanager
+		.createQuery("update LiveBid lb set lb.bidDoneToken = 1 where lb.bidId = :em")
+		.setParameter("em", id)
+		.executeUpdate();
 		// TODO Auto-generated method stub
 		
 	}
