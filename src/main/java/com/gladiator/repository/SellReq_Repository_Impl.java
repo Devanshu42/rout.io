@@ -23,6 +23,14 @@ public class SellReq_Repository_Impl implements SellReq_Repository{
 		// TODO Auto-generated method stub
 		
 	}
+	
+	@Override
+	public List<CropSell> findAll() {
+		return entitymanager
+				.createQuery("select c.sellId, c.cropName,c.expiryDate,c.quantity,c.baseFarmerPrice, cr.cropTypeName from CropSell c, Crop cr where c.cropName=cr.cropName")
+				.getResultList();		
+		// TODO Auto-generated method stub
+	}
 
 	@Override
 	public List<CropSell> findAll(String email) {
@@ -44,8 +52,18 @@ public class SellReq_Repository_Impl implements SellReq_Repository{
 	@Override
 	public List<CropSell> findNotApproved() {
 		return  entitymanager
-				.createQuery("select c.cropName,c.cropTypeName,cs.baseFarmerPrice from Crop c,CropSell cs where c.cropName=cs.cropName and cs.adminApprove=0")
+				.createQuery("select c.cropName,c.cropTypeName,cs.baseFarmerPrice from Crop c,CropSell cs where c.cropName=cs.cropName and cs.adminApprove=1")
 				.getResultList();
+	}
+	
+	@Override
+	public List<CropSell> findCropNames(String croptype) {
+		System.out.println("CropType "+croptype);
+		return  entitymanager
+				.createQuery("select c.cropName from Crop c where c.cropTypeName=:ct")
+				.setParameter("ct", croptype)
+				.getResultList();
+		
 	}
 
 	

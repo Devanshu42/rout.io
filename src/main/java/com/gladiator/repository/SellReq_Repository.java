@@ -14,6 +14,10 @@ public interface SellReq_Repository {
 	List<CropSell> findApproved(String email);
 	
 	public List<CropSell> findNotApproved();
+
+	List<CropSell> findAll();
+	
+	List<CropSell> findCropNames(String croptype);
 	
 
 }

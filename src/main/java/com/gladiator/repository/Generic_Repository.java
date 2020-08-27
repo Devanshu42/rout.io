@@ -10,5 +10,7 @@ public interface Generic_Repository {
 
 	public OfficialUser findById(String email);
 	public void saveCropType(Crop crop);
-
+	
+	public void approveSellRequest(int id);
+	public void declineSellRequest(int id);
 }

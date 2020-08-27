@@ -46,4 +46,30 @@ public class Generic_RepositoryImpl implements Generic_Repository {
 
 	
 	}
+
+	@Override
+	@Transactional
+	public void approveSellRequest(int id) {
+		// TODO Auto-generated method stub
+		entitymanager
+		.createQuery("update CropSell cs set cs.adminApprove = 1 where cs.sellId = :em")
+		.setParameter("em", id)
+		.executeUpdate();
+		
+	}
+	
+	@Transactional
+	@Override
+	public void declineSellRequest(int id) {
+		// TODO Auto-generated method stub
+		entitymanager
+		.createQuery("update CropSell cs set cs.adminApprove = 2 where cs.sellId = :em")
+		.setParameter("em", id)
+		.executeUpdate();
+		
+		
+	}
+
+
+	
 }

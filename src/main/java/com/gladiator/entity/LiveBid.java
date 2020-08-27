@@ -9,6 +9,7 @@
 // * The persistent class for the "LiveBid" database table.
 // * 
 // */
+//
 //@Entity
 //@Table(name="LiveBid")
 //@NamedQuery(name="LiveBid.findAll", query="SELECT l FROM LiveBid l")
